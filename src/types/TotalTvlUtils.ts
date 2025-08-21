@@ -1,4 +1,4 @@
-import { TotalTvlCount, TotalTvlUtil } from '../../generated/schema';
+import { PlasmaVault, TotalTvlCount, TotalTvlUtil } from '../../generated/schema';
 import { Address, BigDecimal, BigInt, ethereum } from '@graphprotocol/graph-ts';
 import { BI_EVERY_7_DAYS, canCalculateTotalTvl, CONST_ID, EVERY_7_DAYS } from '../utils/Constant';
 import { createTvl, createTvlV2 } from './Tvl';
@@ -13,11 +13,24 @@ export function pushVault(address: string, block: ethereum.Block): void {
   vaultUtils.save()
 }
 
+export function pushPlasmaVault(address: string, block: ethereum.Block): void {
+  const vaultUtils = getTvlUtils(block);
+
+  let array = vaultUtils.plasmaVaults
+  if (array == null) {
+    array = []
+  }
+  array.push(address)
+  vaultUtils.plasmaVaults = array
+  vaultUtils.save()
+}
+
 export function getTvlUtils(block: ethereum.Block): TotalTvlUtil {
   let vaultUtils = TotalTvlUtil.load(CONST_ID);
   if (vaultUtils == null) {
     vaultUtils = new TotalTvlUtil(CONST_ID)
     vaultUtils.vaults = [];
+    vaultUtils.plasmaVaults = [];
     vaultUtils.lastTimestampUpdate = block.timestamp
     vaultUtils.timestamp = block.timestamp
     vaultUtils.createAtBlock = block.number
@@ -47,6 +60,18 @@ export function createTotalTvl(block: ethereum.Block): void {
       totalTvl = totalTvl.plus(tvl)
     }
   }
+
+  // plasma vault logic
+  const plasmaVaultsArray = tvlUtils.plasmaVaults
+  if (plasmaVaultsArray) {
+    for (let i = 0; i < plasmaVaultsArray.length; i++) {
+      const plasma = PlasmaVault.load(plasmaVaultsArray[i])
+      if (plasma) {
+        totalTvl = totalTvl.plus(plasma.tvl)
+      }
+    }
+  }
+
   createTvlV2(totalTvl, block);
   tvlUtils.lastTimestampUpdate = block.timestamp
   tvlUtils.lastBlockUpdate = block.number

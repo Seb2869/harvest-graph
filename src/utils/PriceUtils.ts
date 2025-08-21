@@ -5,7 +5,7 @@ import {
   BD_ONE,
   BD_ONE_TRILLION,
   BD_TEN,
-  BI_18,
+  BI_18, CURVE_FRAX_ALCX,
   DEFAULT_DECIMAL,
   DEFAULT_PRICE,
   ETH_BALANCER_POOL,
@@ -364,8 +364,9 @@ export function getPriceForCurve(underlyingAddress: string, block: number): BigD
     value = value.plus(tokenPrice.times(tempBalance))
   }
   const totalSupply = curveContract.totalSupply().toBigDecimal();
+  const multiplier = CURVE_FRAX_ALCX == underlyingAddress.toLowerCase() ? BigDecimal.fromString('2') : BigDecimal.fromString('1')
   if (totalSupply.gt(BigDecimal.zero())) {
-    return value.times(BD_18).div(totalSupply);
+    return value.times(BD_18).div(totalSupply).times(multiplier);
   }
   return BigDecimal.zero();
 }

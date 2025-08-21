@@ -1,6 +1,11 @@
 specVersion: 0.0.8
 schema:
   file: ./schema.graphql
+#features:
+#  - grafting # feature name
+#graft:
+#  base: QmPn9r9yTf4m8sSArfVHJBgWFfRHvEMh7q3Rm4ABPetfXu
+#  block: 22495127
 dataSources:
   - kind: ethereum
     name: Storage
@@ -138,6 +143,8 @@ dataSources:
           file: ./abis/uniswap/UniswapV3Vault.json
         - name: StrategyContract
           file: ./abis/StrategyBase.json
+        - name: VaultFarmContract
+          file: ./abis/harvest/VaultFarm.json
       callHandlers:
         - function: notifyPools(uint256[],address[],uint256)
           handler: handleNotifyPools
@@ -171,6 +178,8 @@ dataSources:
           file: ./abis/uniswap/UniswapV3Vault.json
         - name: StrategyContract
           file: ./abis/StrategyBase.json
+        - name: VaultFarmContract
+          file: ./abis/harvest/VaultFarm.json
       callHandlers:
         - function: notifyPools(uint256[],address[],uint256)
           handler: handlePotNotifyPools
@@ -202,6 +211,8 @@ dataSources:
           file: ./abis/uniswap/UniswapV3Vault.json
         - name: StrategyContract
           file: ./abis/StrategyBase.json
+        - name: VaultFarmContract
+          file: ./abis/harvest/VaultFarm.json
       callHandlers:
         - function: notifyPools(uint256[],address[],uint256)
           handler: handlePotNotifyPools
@@ -267,6 +278,68 @@ dataSources:
           handler: handleInitExclusive
       file: ./src/ExclusiveRewardPoolListener.ts
     network: mainnet
+  - kind: ethereum
+    name: UsdcPlasmaVault
+    network: mainnet
+    source:
+      address: "0x3151cee0cdb517c0e7db2b55ff5085e7d1809d90"
+      abi: PlasmaVaultContract
+      startBlock: 22495128
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - PlasmaVault
+      abis:
+        - name: PlasmaVaultContract
+          file: ./abis/PlasmaVault.json
+        - name: FuseContract
+          file: ./abis/Fuse.json
+        - name: ERC20
+          file: ./abis/ERC20.json
+        - name: ExclusiveRewardPoolContract
+          file: ./abis/harvest/ExclusiveRewardPool.json
+        - name: PotPoolContract
+          file: ./abis/harvest/PotPool.json
+        - name: ERC20
+          file: ./abis/ERC20.json
+        - name: VaultContract
+          file: ./abis/Vault.json
+        - name: AutoStakeContract
+          file: ./abis/harvest/AutoStake.json
+        - name: OracleContract
+          file: ./abis/Oracle.json
+        - name: UniswapV2PairContract
+          file: ./abis/uniswap/UniswapV2Pair.json
+        - name: WeightedPool2TokensContract
+          file: ./abis/balancer/WeightedPool2Tokens.json
+        - name: BalancerVaultContract
+          file: ./abis/balancer/BalancerVault.json
+        - name: CurveVaultContract
+          file: ./abis/curve/CurveVault.json
+        - name: CurveMinterContract
+          file: ./abis/curve/CurveMinter.json
+        - name: UniswapV3PoolContract
+          file: ./abis/uniswap/UniswapV3Pool.json
+        - name: UniswapV3VaultContract
+          file: ./abis/uniswap/UniswapV3Vault.json
+        - name: NotionalToken
+          file: ./abis/notional/nToken.json
+        - name: NotionalOracle
+          file: ./abis/notional/UniswapAnchoredView.json
+        - name: StrategyContract
+          file: ./abis/StrategyBase.json
+        - name: PendlePoolContract
+          file: ./abis/pendle/PendlePool.json
+        - name: VaultFarmContract
+          file: ./abis/harvest/VaultFarm.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
+        - event: MarketBalancesUpdated(uint256[],int256)
+          handler: handleMarketBalancesUpdated
+      file: ./src/PlasmaVaultListener.ts
 templates:
   - kind: ethereum
     name: ControllerListener
@@ -310,6 +383,8 @@ templates:
           file: ./abis/StrategyBase.json
         - name: PendlePoolContract
           file: ./abis/pendle/PendlePool.json
+        - name: VaultFarmContract
+          file: ./abis/harvest/VaultFarm.json
       eventHandlers:
         - event: SharePriceChangeLog(indexed address,indexed
             address,uint256,uint256,uint256)
@@ -404,6 +479,8 @@ templates:
           file: ./abis/StrategyBase.json
         - name: PendlePoolContract
           file: ./abis/pendle/PendlePool.json
+        - name: VaultFarmContract
+          file: ./abis/harvest/VaultFarm.json
       eventHandlers:
         - event: Staked(indexed address,uint256,uint256,uint256,uint256,uint256)
           handler: handleStaked
@@ -452,6 +529,8 @@ templates:
           file: ./abis/StrategyBase.json
         - name: PendlePoolContract
           file: ./abis/pendle/PendlePool.json
+        - name: VaultFarmContract
+          file: ./abis/harvest/VaultFarm.json
       eventHandlers:
         - event: RewardAdded(uint256)
           handler: handleRewardAdded
@@ -500,6 +579,8 @@ templates:
           file: ./abis/StrategyBase.json
         - name: PendlePoolContract
           file: ./abis/pendle/PendlePool.json
+        - name: VaultFarmContract
+          file: ./abis/harvest/VaultFarm.json
       eventHandlers:
         - event: RewardAdded(address,uint256)
           handler: handleRewardAdded

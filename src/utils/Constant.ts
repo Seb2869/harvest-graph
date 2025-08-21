@@ -45,7 +45,16 @@ export const STABLE_COIN_ARRAY_MAINNET = [
   '0x91553BAD9Fbc8bD69Ff5d5678Cbf7D514d00De0b'.toLowerCase(),
   '0x2920f9fc667e780c0cb5a78a104d21413377f97e'.toLowerCase(),
   '0x0da210f60a179ee3364123943930dadbab8b210e'.toLowerCase(),
-  '0xc2b021133d1b0cf07dba696fd5dd89338428225b'.toLowerCase()
+  '0xc2b021133d1b0cf07dba696fd5dd89338428225b'.toLowerCase(),
+  // plasma usdc
+  '0x3151cee0cdb517c0e7db2b55ff5085e7d1809d90'.toLowerCase(),
+  // reUSD x sfrxUSD
+  '0xed785Af60bEd688baa8990cD5c4166221599A441'.toLowerCase(),
+  // reUSD x scrvUSD
+  '0xc522A6606BBA746d7960404F22a3DB936B6F4F50'.toLowerCase(),
+  // sUSD x sUSDe
+  '0x4b5E827F4C0a1042272a11857a355dA1F4Ceebae'.toLowerCase(),
+  '0x59a06b97b2d566B9Dee2a368EaC8787Cfa57f95D'.toLowerCase(),
 ]
 
 export const STABLE_COIN_ARRAY_MATIC = [
@@ -91,6 +100,7 @@ export const FARM_UNI_V2_SECOND = '0x1a9f22b4c385f78650e7874d64e442839dc32327'.t
 export const FARM_UNI_V2_THIRD = '0x63671425ef4d25ec2b12c7d05de855c143f16e3b'.toLowerCase()
 export const FARM_UNI_V2_FOURTH = '0xb1feb6ab4ef7d0f41363da33868e85eb0f3a57ee'.toLowerCase()
 export const FARM_UNI_V2_FIVE = '0x25550cccbd68533fa04bfd3e3ac4d09f9e00fc50'.toLowerCase()
+export const CURVE_FRAX_ALCX = '0xf985005a3793DbA4cCe241B3C19ddcd3Fe069ff4'.toLowerCase()
 
 export const SKIP_TOTAL_TVL = [
   UNI_V3_WBTC_WETH,
@@ -190,7 +200,9 @@ export const ETH_LIST = [
   ETH_BALANCER_POOL,
   OETH_ETH,
   '0x06325440d014e39736583c165c2963ba99faf14e'.toLowerCase(),
-  '0x3410463726a7a22ce0809367a4418fe82fc31fd3'.toLowerCase()
+  '0x3410463726a7a22ce0809367a4418fe82fc31fd3'.toLowerCase(),
+  // Restaked LST eth
+  '0x8c9532a60e0e7c6bbd2b2c1303f63ace1c3e9811'.toLowerCase()
 ]
 
 export function isEth(address: string): boolean {

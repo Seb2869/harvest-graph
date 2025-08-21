@@ -41,7 +41,7 @@ export function handleRewardPaid(event: RewardPaid): void {
     let multi = BigDecimal.fromString('1');
     if (tokenPriceId.toLowerCase() == I_FARM_TOKEN.toHexString().toLowerCase()) {
       tokenAdr = FARM_TOKEN_MAINNET;
-      multi = pow(VaultFarmContract.bind(I_FARM_TOKEN).getPricePerFullShare().toBigDecimal(), 18);
+      multi = VaultFarmContract.bind(I_FARM_TOKEN).getPricePerFullShare().divDecimal(pow(BD_TEN, 18));
     }
     const price = getPriceForCoin(tokenAdr, event.block.number.toI32());
     let priceBD = BigDecimal.zero();
